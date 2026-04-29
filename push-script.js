@@ -1,10 +1,10 @@
 const crypto = require('node:crypto');
 
 function toBase64Url(buffer) {
-  return buffer.toString('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=/g, '');
+    return buffer.toString('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=/g, '');
 }
 
 const { publicKey, privateKey } = crypto.generateKeyPairSync('ec', {
@@ -51,5 +51,9 @@ const signatureBase64Url = toBase64Url(signature);
 
 const vapidToken = [dataToSign, signatureBase64Url].join('.');
 
+console.log("-".repeat(50))
 console.log(`PUBLIC_KEY (Para el frontend): ${publicKeyBase64Url}`);
-console.log(`\nHeader para enviar la notificación:\nAuthorization: vapid t=${vapidToken}, k=${publicKeyBase64Url}`);
+console.log("-".repeat(50))
+console.log(`PRIVATE_KEY (env back base64): ${JSON.stringify(privateKey.export({ format: 'jwk' }), null, 1)}`);
+console.log("-".repeat(50))
+// console.log(`\nHeader para enviar la notificación:\nAuthorization: vapid t=${vapidToken}, k=${publicKeyBase64Url}`);
